@@ -1,9 +1,19 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 
-import { categories } from "../_reducer/categories";
-import { events } from "../_reducer/events";
+// Reducer, diambil dari directory reducer
+import { categories, categoryDetail } from "../_reducer/categories";
+import { events, eventsToday, upcomingEvents } from "../_reducer/events";
 import { eventDetail } from "../_reducer/eventDetail";
+import { eventCategory } from "../_reducer/eventCategory";
+import {
+  userSign,
+  userSignup,
+  userDetail,
+  userEventsfavorites
+  // userSetLikeEvent
+} from "../_reducer/user";
 
+// Middleware
 import { logger, promise } from "./middleware";
 
 // GET all reducer available
@@ -11,7 +21,16 @@ import { logger, promise } from "./middleware";
 const rootReducers = combineReducers({
   categories,
   events,
-  eventDetail
+  eventsToday,
+  upcomingEvents,
+  eventDetail,
+  eventCategory,
+  categoryDetail,
+  userSign,
+  userSignup,
+  userDetail,
+  userEventsfavorites
+  // userSetLikeEvent
 });
 
 // setup store redux

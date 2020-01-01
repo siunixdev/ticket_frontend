@@ -2,34 +2,36 @@ import React, { Component } from "react";
 import "../App.css";
 
 // Other Component
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import {
-  Grid,
-  Card,
-  CardActionArea,
-  CardMedia,
-  CardContent,
-  CardActions,
-  Typography
-} from "@material-ui/core";
-import { Link, withRouter } from "react-router-dom";
+import { Grid } from "@material-ui/core";
+import { Update, AccessTime } from "@material-ui/icons";
 
 import { connect } from "react-redux";
-import { getEvents } from "../_actions/events";
+import {
+  getEvents,
+  getEventsToday,
+  getUpcomingEvents
+} from "../_actions/events";
 import Search from "../components/Search";
 import Categories from "../components/Categories";
+import EventCard from "../components/eventCard";
 
 class Events extends Component {
   componentDidMount() {
-    this.props.getEvents();
+    this.props.getEventsToday();
+    this.props.getUpcomingEvent();
   }
 
   render() {
-    console.log(this.props.events);
-    const { data, isLoading, error } = this.props.events;
+    // const { events, isLoading, error } = this.props.eventsData;
+    const { events, isLoading, error } = this.props.eventsTodayData;
+    const {
+      eventsUpcoming,
+      isLoadingUpcoming,
+      errorUpcoming
+    } = this.props.upcomingEventsData;
+    // console.log(events.data[0]);
 
-    if (error) {
+    if (error && errorUpcoming) {
       return (
         <div>
           <h1>Something error!</h1>
@@ -37,7 +39,7 @@ class Events extends Component {
       );
     }
 
-    if (isLoading) {
+    if (isLoading && isLoadingUpcoming) {
       return (
         <div>
           <h1>Now loading...!</h1>
@@ -46,78 +48,76 @@ class Events extends Component {
     }
     return (
       <>
-        <Grid item lg md sm xs></Grid>
-        <Grid item lg={12} md={12} sm={12} xs={12}>
-          <div
-            style={{
-              marginTop: "20px",
-              marginBottom: "40px",
-              textAlign: "center"
-            }}
-          >
-            <Search />
-          </div>
-        </Grid>
-        <Grid item lg md sm xs></Grid>
+        <Search />
+        <h1 style={{ color: "#E74267", marginTop: "60px" }}>Categories</h1>
         <Categories />
 
-        <Grid container spacing={3} style={{ paddingTop: "50px" }}>
-          {data.map(item => {
-            return (
-              <Grid item lg={4} md={4} sm={6} xs={12}>
-                <Card>
-                  <CardActionArea>
-                    <CardMedia
-                      style={{ height: "200px" }}
-                      image={item.image}
-                      title="Contemplative Reptile"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {item.title.substring(0, 20)}...
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                      >
-                        {item.description.substring(0, 200)}...
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      Like
-                    </Button>
-                    <Link to={`/event/` + item.id}>
-                      <Button size="small" color="primary">
-                        More
-                      </Button>
-                    </Link>
-                  </CardActions>
-                </Card>
+        <div style={{ paddingTop: "40px" }}>
+          <h1 style={{ color: "#E74267" }}>
+            <AccessTime /> Todays
+          </h1>
+          {!events.length && <h3>Today event not available</h3>}
+          <Grid container spacing={3} style={{ paddingTop: "10px" }}>
+            {events.map((item, i) => (
+              <Grid item lg={4} md={4} sm={6} xs={12} key={i}>
+                <EventCard
+                  image={item.image}
+                  price={item.price}
+                  title={item.title}
+                  description={item.description}
+                  id={item.id}
+                />
               </Grid>
-            );
-          })}
-        </Grid>
+            ))}
+          </Grid>
+        </div>
+        <div style={{ paddingTop: "40px" }}>
+          <h1 style={{ color: "#E74267" }}>
+            {" "}
+            <Update /> Upcoming
+          </h1>
+          {!eventsUpcoming.length && <h3>Upcoming event not available</h3>}
+          <Grid container spacing={3} style={{ paddingTop: "10px" }}>
+            {eventsUpcoming.map((item, i) => (
+              <Grid item lg={4} md={4} sm={6} xs={12} key={i}>
+                <EventCard
+                  image={item.image}
+                  price={item.price}
+                  title={item.title}
+                  description={item.description}
+                  id={item.id}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </div>
       </>
     );
   }
 }
 
-const mapStateToProps = (state, otherProps) => {
+const mapStateToProps = state => {
   return {
-    event_id: otherProps.match.params.id,
-    events: state.events
+    eventsData: state.events,
+    eventsTodayData: state.eventsToday,
+    upcomingEventsData: state.upcomingEvents
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getEvents: event_id => {
-      dispatch(getEvents(event_id));
+    getEvents: () => {
+      dispatch(getEvents());
+    },
+
+    getEventsToday: () => {
+      dispatch(getEventsToday());
+    },
+
+    getUpcomingEvent: () => {
+      dispatch(getUpcomingEvents());
     }
   };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Events));
+export default connect(mapStateToProps, mapDispatchToProps)(Events);

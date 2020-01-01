@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
 // PAGES
@@ -7,29 +6,38 @@ import Register from "./pages/register";
 import Login from "./pages/Login";
 import Events from "./pages/Events";
 import EventsDetail from "./pages/EventDetail";
-import categoryDetail from "./pages/CategoryDetail";
+import Profile from "./pages/Profile";
 
 // Other Component
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // component
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import CategoryDetail from "./pages/CategoryDetail";
+import { Paper } from "@material-ui/core";
+
+import { getUserProfil } from "./_actions/user";
+import { connect } from "react-redux";
 
 class App extends Component {
+  componentDidMount() {
+    this.props.userDetail1();
+    console.log(this.props.userDetail1.data);
+  }
+
   render() {
     return (
       <Router>
-        <div>
+        <div style={{ minHeight: "100%", position: "relative" }}>
           {/* Header */}
           <Header />
-          <Grid container>
+          <Grid container style={{ paddingBottom: "60px" }}>
             <Grid item lg md sm xs></Grid>
             <Grid item lg={12} md={12} sm={12} xs={12}>
-              <Card
+              <Paper
+                elevation={0}
                 style={{
                   marginTop: "50px",
                   width: "70%",
@@ -37,29 +45,43 @@ class App extends Component {
                   marginLeft: "auto"
                 }}
               >
-                <CardContent>
-                  {/* Content */}
-                  <div>
-                    <Switch>
-                      <Route path="/register" component={Register} />
-                      <Route path="/login" component={Login} />
-                      <Route path="/event/:id" component={EventsDetail} />
-                      <Route
-                        path="/category/:id/events"
-                        component={CategoryDetail}
-                      />
-                      <Route path="/" component={Events} />
-                    </Switch>
-                  </div>
-                </CardContent>
-              </Card>
+                {/* Content */}
+                <div>
+                  <Switch>
+                    <Route
+                      path="/category/:id/events"
+                      component={CategoryDetail}
+                    />
+                    <Route path="/register" component={Register} />
+                    <Route path="/login" component={Login} />
+                    <Route path="/profile" component={Profile} />
+                    <Route path="/event/:id" component={EventsDetail} />
+                    <Route path="/" component={Events} />
+                  </Switch>
+                </div>
+              </Paper>
             </Grid>
             <Grid item lg md sm xs></Grid>
           </Grid>
+          <Footer style={{ marginTop: "auto" }} />
         </div>
       </Router>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    user: state.userDetail
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    userDetail1: () => {
+      dispatch(getUserProfil());
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

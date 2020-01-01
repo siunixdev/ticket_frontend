@@ -6,16 +6,23 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { sign } from "../_actions/user";
+import { connect } from "react-redux";
+// import axios from "axios";
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      message: ""
     };
   }
+
+  // componentDidMount() {
+  //   this.props.userSign1();
+  // }
 
   onChangeusername = event => {
     this.setState({ username: event.target.value });
@@ -25,25 +32,22 @@ class Login extends Component {
   };
 
   login = () => {
-    axios({
-      method: "POST",
-      url: "http://localhost:5000/api/v1/sign/",
-      data: {
-        username: this.state.username,
-        password: this.state.password
-      }
-    })
-      .then(res => {
-        localStorage.setItem("token", res.data.token);
-        alert("Login is success");
-        window.location.href = "http://localhost:3000/";
-      })
-      .catch(err => {
-        alert("Failed");
-      });
+    const user = {
+      username: this.state.username,
+      password: this.state.password
+    };
+    this.props.userSign1(user);
   };
 
   render() {
+    console.log(this.props.user.data);
+    const { message, token } = this.props.user.data;
+
+    if (message === "Success") {
+      localStorage.setItem("token", token);
+      window.location.href = "http://localhost:3000/";
+    }
+
     return (
       <>
         <Grid container>
@@ -61,6 +65,7 @@ class Login extends Component {
                 }}
               >
                 <h2>Welcome Back.</h2>
+                <h4>{this.state.message}</h4>
               </div>
               <div
                 style={{
@@ -122,4 +127,18 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => {
+  return {
+    user: state.userSign
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    userSign1: user => {
+      dispatch(sign(user));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

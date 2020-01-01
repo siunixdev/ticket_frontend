@@ -2,20 +2,21 @@ import React, { Component } from "react";
 import "../App.css";
 
 // Other Component
-import Button from "@material-ui/core/Button";
+import { Paper, Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import ScrollMenu from "react-horizontal-scrolling-menu";
 
 import { connect } from "react-redux";
+
+// ambil action dari directory action
 import { getCategories } from "../_actions/categories";
 
 class Categories extends Component {
   componentDidMount() {
-    this.props.getCategories();
+    this.props.getCategories1();
   }
 
   render() {
-    const { data, isLoading, error } = this.props.categories;
+    const { data, isLoading, error } = this.props.categories12;
     console.log(data);
 
     if (error) {
@@ -34,43 +35,34 @@ class Categories extends Component {
       );
     }
 
-    const MenuItem = ({ text, id }) => {
-      return (
-        <>
-          <Link
-            to={`/category/${id}/events`}
-            style={{ textDecoration: "none" }}
-          >
-            <Button
-              style={{
-                color: "#FFF",
-                padding: "10px 30px",
-                backgroundColor: "#792235",
-                marginLeft: "10px"
-              }}
-            >
-              {text}
-            </Button>
-          </Link>
-        </>
-      );
-    };
-
-    const menu = data.map(item => {
-      return <MenuItem text={item.name} id={item.id} />;
-    });
-
     return (
-      <div
-        style={{
-          backgroundColor: "#FFFFFF",
-          color: "#3F3F3F",
-          textAlign: "left"
-        }}
-      >
-        <div style={{ width: "70%", margin: "auto", marginTop: "20px" }}>
-          <ScrollMenu data={menu} />
-        </div>
+      <div style={{ display: "flex" }}>
+        <Grid container spacing={3}>
+          {data.map((item, i) => {
+            return (
+              <Grid item lg={3} style={{ textAlign: "center" }} key={i}>
+                <Link
+                  to={`/category/${item.id}/events`}
+                  style={{
+                    textDecoration: "none"
+                  }}
+                >
+                  <Paper
+                    elevation={3}
+                    style={{
+                      padding: "1px 40px",
+                      backgroundColor: "#5A5A5A", //#E74267
+                      color: "#FFF",
+                      textTransform: "uppercase"
+                    }}
+                  >
+                    <h3>{item.name}</h3>
+                  </Paper>
+                </Link>
+              </Grid>
+            );
+          })}
+        </Grid>
       </div>
     );
   }
@@ -78,13 +70,13 @@ class Categories extends Component {
 
 const mapStateToProps = state => {
   return {
-    categories: state.categories
+    categories12: state.categories
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getCategories: () => {
+    getCategories1: () => {
       dispatch(getCategories());
     }
   };

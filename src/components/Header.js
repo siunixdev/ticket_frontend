@@ -7,11 +7,13 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import { Person } from "@material-ui/icons";
+import { Person, Payment, Event, ExitToAppOutlined } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { ConfirmationNumber, PersonOutline } from "@material-ui/icons";
 
 import {
-  Fab,
   Menu,
   MenuItem,
   List,
@@ -46,7 +48,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Header() {
+function Header(props) {
+  const { data } = props.user;
+
+  const token = localStorage.getItem("token");
+  let auth = true;
+  if (token === null) auth = false;
+
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -59,71 +67,136 @@ export default function Header() {
     setAnchorEl(null);
   };
 
+  const logout = () => {
+    localStorage.clear();
+    setAnchorEl(null);
+  };
+
   return (
     <div className={classes.root}>
       <AppBar
         position="static"
-        style={{ background: "#EB4167", color: "#FFF", boxShadow: "none" }}
+        style={{ background: "#CA4040", color: "#FFF", boxShadow: "none" }}
       >
         <div style={{ width: "70%", margin: "auto" }}>
           <Toolbar>
+            <ConfirmationNumber style={{ marginRight: 10 }} />
             <h2 className={classes.title}>
               <Link to="/" style={{ textDecoration: "none", color: "#FFF" }}>
                 Tricket
               </Link>
             </h2>
-            <Button variant="outlined" style={{ marginRight: "20px" }}>
-              <Link className={classes.btnLoginLink} to="/login">
-                Login
-              </Link>
-            </Button>
-            <Button variant="outlined" style={{ marginRight: "20px" }}>
-              <Link className={classes.btnLoginLink} to="/register">
-                Register
-              </Link>
-            </Button>
-            <IconButton onClick={handleClick} aria-controls="user-account-menu">
-              <Person style={{ color: "#FFF" }} />
-            </IconButton>
-            <Menu
-              id="user-account-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-              style={{ transformOrigin: "bottom" }}
-            >
-              <List style={{ padding: "0px 40px 10px 40px" }}>
-                <ListItem onClick={handleClose}>
-                  <ListItemAvatar>
-                    <Avatar>
-                      <Person />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary="Abdillah F." secondary="abd.siunix" />
-                </ListItem>
-              </List>
-              <Divider light style={{ marginBottom: "10px" }}></Divider>
-              <Link to="/new_stories" style={{ textDecoration: "none" }}>
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-              </Link>
-              <Link to="/stories" style={{ textDecoration: "none" }}>
-                <MenuItem onClick={handleClose}>My Ticket</MenuItem>
-              </Link>
-              <Link to="/stats" style={{ textDecoration: "none" }}>
-                <MenuItem onClick={handleClose}>Payment</MenuItem>
-              </Link>
-              <Link to="/bookmark" style={{ textDecoration: "none" }}>
-                <MenuItem onClick={handleClose}>Add Event</MenuItem>
-              </Link>
-              <Divider light style={{ marginBottom: "10px" }}></Divider>
-              <Link to="/profile" style={{ textDecoration: "none" }}>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
-              </Link>
-            </Menu>
+            {!auth && (
+              <>
+                <Button variant="outlined" style={{ marginRight: "20px" }}>
+                  <Link className={classes.btnLoginLink} to="/login">
+                    Login
+                  </Link>
+                </Button>
+                <Button variant="outlined" style={{ marginRight: "20px" }}>
+                  <Link className={classes.btnLoginLink} to="/register">
+                    Register
+                  </Link>
+                </Button>
+              </>
+            )}
+
+            {auth && (
+              <>
+                <IconButton
+                  onClick={handleClick}
+                  aria-controls="user-account-menu"
+                >
+                  <Person style={{ color: "#FFF" }} />
+                </IconButton>
+                <Menu
+                  id="user-account-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                  style={{ transformOrigin: "bottom" }}
+                >
+                  <List style={{ padding: "0px 40px 10px 40px" }}>
+                    <ListItem onClick={handleClose}>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <Person />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={data.name}
+                        secondary={data.email}
+                      />
+                    </ListItem>
+                  </List>
+                  <Divider light style={{ marginBottom: "10px" }}></Divider>
+                  <Link
+                    to="/profile"
+                    style={{ textDecoration: "none", color: "#5e5e5e" }}
+                  >
+                    <MenuItem onClick={handleClose}>
+                      <PersonOutline style={{ marginRight: 20 }} />
+                      Profile
+                    </MenuItem>
+                  </Link>
+                  <Link
+                    to="/stories"
+                    style={{ textDecoration: "none", color: "#5e5e5e" }}
+                  >
+                    <MenuItem onClick={handleClose}>
+                      <ConfirmationNumber style={{ marginRight: 20 }} />
+                      My Ticket
+                    </MenuItem>
+                  </Link>
+                  <Link
+                    to="/stats"
+                    style={{ textDecoration: "none", color: "#5e5e5e" }}
+                  >
+                    <MenuItem onClick={handleClose}>
+                      <Payment style={{ marginRight: 20 }} /> Payment
+                    </MenuItem>
+                  </Link>
+                  <Link
+                    to="/bookmark"
+                    style={{ textDecoration: "none", color: "#5e5e5e" }}
+                  >
+                    <MenuItem onClick={handleClose}>
+                      <Event style={{ marginRight: 20 }} /> Add Event
+                    </MenuItem>
+                  </Link>
+                  <Divider light style={{ marginBottom: "10px" }}></Divider>
+                  <Link
+                    to="/"
+                    style={{ textDecoration: "none", color: "#5e5e5e" }}
+                  >
+                    <MenuItem onClick={logout}>
+                      <ExitToAppOutlined style={{ marginRight: 20 }} />
+                      Logout
+                    </MenuItem>
+                  </Link>
+                </Menu>
+              </>
+            )}
           </Toolbar>
         </div>
       </AppBar>
     </div>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    user: state.userDetail
+  };
+};
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     userDetail1: () => {
+//       dispatch(getUserProfil());
+//     }
+//   };
+// };
+
+export default connect(mapStateToProps)(Header);

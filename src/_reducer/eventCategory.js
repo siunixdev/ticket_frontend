@@ -1,24 +1,24 @@
-import { GET_EVENTS_DETAIL } from "../config/constant";
+import { GET_CATEGORIES_EVENTS } from "../config/constant";
 const initialState = {
-  event: [],
+  eventCategory: [],
   isLoading: false,
   error: false
 };
 
-export const eventDetail = (state = initialState, action) => {
+export const eventCategory = (state = initialState, action) => {
   switch (action.type) {
-    case `${GET_EVENTS_DETAIL}_PENDING`:
+    case `${GET_CATEGORIES_EVENTS}_PENDING`:
       return {
         ...state,
         isLoading: true
       };
-    case `${GET_EVENTS_DETAIL}_FULFILLED`:
+    case `${GET_CATEGORIES_EVENTS}_FULFILLED`:
       return {
         ...state,
-        event: action.payload.data,
+        eventCategory: action.payload.data,
         isLoading: false
       };
-    case `${GET_EVENTS_DETAIL}_REJECTED`:
+    case `${GET_CATEGORIES_EVENTS}_REJECTED`:
       return {
         ...state,
         error: true,
