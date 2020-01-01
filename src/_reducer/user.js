@@ -127,7 +127,7 @@ export const userEventsfavorites = (state = initialFavoriteState, action) => {
   }
 };
 
-export const userSetLikeEvent = (state = userSetLikeEvent, action) => {
+export const userSetLikeEvent = (state = initialLikeEventState, action) => {
   switch (action.type) {
     case `${USER_SET_LIKE_EVENT}_PENDING`:
       return {
