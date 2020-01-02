@@ -64,6 +64,7 @@ class Events extends Component {
                   image={item.image}
                   price={item.price}
                   title={item.title}
+                  date={item.start_time}
                   description={item.description}
                   id={item.id}
                 />
@@ -84,6 +85,7 @@ class Events extends Component {
                   image={item.image}
                   price={item.price}
                   title={item.title}
+                  date={item.start_time}
                   description={item.description}
                   id={item.id}
                 />

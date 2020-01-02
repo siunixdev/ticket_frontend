@@ -1,7 +1,8 @@
 import {
   GET_EVENTS,
   GET_EVENTS_TODAY,
-  GET_UPCOMING_EVENTS
+  GET_UPCOMING_EVENTS,
+  GET_EVENTS_SEARCH
 } from "../config/constant";
 const initialState = {
   events: [],
@@ -13,6 +14,12 @@ const initialStateUpcoming = {
   eventsUpcoming: [],
   isLoadingUpcoming: false,
   errorUpcoming: false
+};
+
+const initialStateSearch = {
+  eventsSearch: [],
+  isLoadingSearch: false,
+  errorSearch: false
 };
 
 export const events = (state = initialState, action) => {
@@ -90,5 +97,30 @@ export const upcomingEvents = (
       };
     default:
       return stateUpcoming;
+  }
+};
+
+export const searchEvents = (stateSearch = initialStateSearch, action) => {
+  switch (action.type) {
+    case `${GET_EVENTS_SEARCH}_PENDING`:
+      return {
+        ...stateSearch,
+        isLoadingSearch: true
+      };
+    case `${GET_EVENTS_SEARCH}_FULFILLED`:
+      console.log(action.payload);
+      return {
+        ...stateSearch,
+        eventsSearch: action.payload.data,
+        isLoadingSearch: false
+      };
+    case `${GET_EVENTS_SEARCH}_REJECTED`:
+      return {
+        ...stateSearch,
+        errorSearch: true,
+        isLoadingSearch: false
+      };
+    default:
+      return stateSearch;
   }
 };

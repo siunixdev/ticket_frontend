@@ -8,11 +8,10 @@ class Search extends Component {
     return (
       <TextField
         id="filled-password-input"
-        label="Pencarian"
+        label="Search"
         type="text"
         autoComplete="current-password"
         fullWidth
-        style={{ width: "70%", margin: "auto" }}
       />
     );
   }

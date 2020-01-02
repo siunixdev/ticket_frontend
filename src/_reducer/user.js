@@ -3,7 +3,8 @@ import {
   SIGN,
   USER_DETAIL,
   USER_EVENTS_FAVORITES,
-  USER_SET_LIKE_EVENT
+  USER_SET_LIKE_EVENT,
+  USER_PROFILE_UPDATE
 } from "../config/constant";
 
 const initialState = {
@@ -25,6 +26,13 @@ const initialLikeEventState = {
   isLoadingLike: false,
   isPostLike: false,
   errorLike: false
+};
+
+const initialProfileUpdateState = {
+  dataProfileUpdate: [],
+  isLoadingProfileUpdate: false,
+  isPostProfileUpdate: false,
+  errorProfileUpdate: false
 };
 
 export const userSignup = (state = initialState, action) => {
@@ -145,6 +153,33 @@ export const userSetLikeEvent = (state = initialLikeEventState, action) => {
         ...state,
         errorLike: true,
         isLoadingLike: false
+      };
+    default:
+      return state;
+  }
+};
+
+export const userProfileUpdate = (
+  state = initialProfileUpdateState,
+  action
+) => {
+  switch (action.type) {
+    case `${USER_PROFILE_UPDATE}_PENDING`:
+      return {
+        ...state,
+        isLoadingProfileUpdate: true
+      };
+    case `${USER_PROFILE_UPDATE}_FULFILLED`:
+      return {
+        ...state,
+        dataProfileUpdate: action.payload.data,
+        isLoadingProfileUpdate: false
+      };
+    case `${USER_PROFILE_UPDATE}_REJECTED`:
+      return {
+        ...state,
+        errorProfileUpdate: true,
+        isLoadingProfileUpdate: false
       };
     default:
       return state;

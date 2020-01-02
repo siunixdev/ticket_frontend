@@ -20,10 +20,6 @@ class Login extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.props.userSign1();
-  // }
-
   onChangeusername = event => {
     this.setState({ username: event.target.value });
   };
@@ -40,7 +36,6 @@ class Login extends Component {
   };
 
   render() {
-    console.log(this.props.user.data);
     const { message, token } = this.props.user.data;
 
     if (message === "Success") {

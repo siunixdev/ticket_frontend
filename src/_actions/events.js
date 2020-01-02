@@ -2,7 +2,8 @@
 import {
   GET_EVENTS,
   GET_EVENTS_TODAY,
-  GET_UPCOMING_EVENTS
+  GET_UPCOMING_EVENTS,
+  GET_EVENTS_SEARCH
 } from "../config/constant";
 import axios from "axios";
 
@@ -32,6 +33,16 @@ export const getUpcomingEvents = () => {
     payload: axios({
       method: "GET",
       url: "http://localhost:5000/api/v1/upcoming/events"
+    })
+  };
+};
+
+export const getEventSearch = data => {
+  return {
+    type: GET_EVENTS_SEARCH,
+    payload: axios({
+      method: "GET",
+      url: `http://localhost:5000/api/v1/events/search?title=${data}`
     })
   };
 };

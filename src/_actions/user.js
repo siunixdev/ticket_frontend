@@ -4,7 +4,8 @@ import {
   SIGN,
   USER_DETAIL,
   USER_EVENTS_FAVORITES,
-  USER_SET_LIKE_EVENT
+  USER_SET_LIKE_EVENT,
+  USER_PROFILE_UPDATE
 } from "../config/constant";
 import axios from "axios";
 
@@ -72,6 +73,22 @@ export const userSetLikeEvent = eventData => {
         Authorization: token
       },
       data: eventData
+    })
+  };
+};
+
+export const updateProfile = user => {
+  let token = localStorage.getItem("token");
+  token = "Bearer " + token;
+  return {
+    type: USER_PROFILE_UPDATE,
+    payload: axios({
+      method: "PUT",
+      url: `http://localhost:5000/api/v1/profile/`,
+      headers: {
+        Authorization: token
+      },
+      data: user
     })
   };
 };

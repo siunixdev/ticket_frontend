@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+.User-picture {
+  width: 100px;
+  height: 100px;
+  -webkit-border-radius: 60px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 60px;
+  -moz-background-clip: padding;
+  border-radius: 60px;
+  background-clip: padding-box;
+  float: left;
+  background-size: cover;
+  background-position: top center;
+}

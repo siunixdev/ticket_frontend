@@ -103,12 +103,13 @@ function Header(props) {
 
             {auth && (
               <>
-                <IconButton
+                <h3 style={{ marginRight: 20 }}>{data.name}</h3>
+                <ListItemAvatar
                   onClick={handleClick}
                   aria-controls="user-account-menu"
                 >
-                  <Person style={{ color: "#FFF" }} />
-                </IconButton>
+                  <Avatar alt={data.name} src={data.image}></Avatar>
+                </ListItemAvatar>
                 <Menu
                   id="user-account-menu"
                   anchorEl={anchorEl}
@@ -120,9 +121,7 @@ function Header(props) {
                   <List style={{ padding: "0px 40px 10px 40px" }}>
                     <ListItem onClick={handleClose}>
                       <ListItemAvatar>
-                        <Avatar>
-                          <Person />
-                        </Avatar>
+                        <Avatar alt={data.name} src={data.image}></Avatar>
                       </ListItemAvatar>
                       <ListItemText
                         primary={data.name}

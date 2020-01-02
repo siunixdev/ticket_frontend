@@ -9,7 +9,8 @@ import {
   userSign,
   userSignup,
   userDetail,
-  userEventsfavorites
+  userEventsfavorites,
+  userProfileUpdate
   // userSetLikeEvent
 } from "../_reducer/user";
 
@@ -29,7 +30,8 @@ const rootReducers = combineReducers({
   userSign,
   userSignup,
   userDetail,
-  userEventsfavorites
+  userEventsfavorites,
+  userProfileUpdate
   // userSetLikeEvent
 });
 
