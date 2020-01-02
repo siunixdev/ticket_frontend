@@ -2,7 +2,12 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 
 // Reducer, diambil dari directory reducer
 import { categories, categoryDetail } from "../_reducer/categories";
-import { events, eventsToday, upcomingEvents } from "../_reducer/events";
+import {
+  events,
+  eventsToday,
+  upcomingEvents,
+  addEvent
+} from "../_reducer/events";
 import { eventDetail } from "../_reducer/eventDetail";
 import { eventCategory } from "../_reducer/eventCategory";
 import {
@@ -22,6 +27,7 @@ import { logger, promise } from "./middleware";
 const rootReducers = combineReducers({
   categories,
   events,
+  addEvent,
   eventsToday,
   upcomingEvents,
   eventDetail,

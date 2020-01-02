@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
 import React, { Component } from "react";
 import {
   Card,
@@ -15,7 +16,10 @@ import {
   Person,
   Phone,
   Email,
-  Room
+  Room,
+  Twitter,
+  Facebook,
+  Share
 } from "@material-ui/icons";
 import { withRouter } from "react-router-dom";
 import { getEventDetail } from "../_actions/eventDetail";
@@ -62,6 +66,7 @@ class ArticleDetail extends Component {
     let start_time = event.start_time ? event.start_time : "";
     let end_time = event.end_time ? event.end_time : "";
     let address = event.address ? event.address : "";
+    let urlMap = event.url_maps ? event.url_maps : "";
     let userName = event.user ? event.user.name : "";
     let userEmail = event.user ? event.user.email : "-";
     let userPhone = event.user ? event.user.no_telp : "-";
@@ -236,10 +241,65 @@ class ArticleDetail extends Component {
                 <p>{description}</p>
               </Grid>
               <Grid item lg={6} md={6} sm={12}>
-                <h1 style={{ color: "#5E5E5E" }}>Location</h1>
-                <div style={{ display: "flex", alignItems: "center" }}>
+                <h1 style={{ color: "#5E5E5E", marginBottom: 0 }}>Location</h1>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: 20
+                  }}
+                >
                   <Room style={{ marginRight: 10 }} />
                   <p>{address}</p>
+                </div>
+                {urlMap && (
+                  <iframe
+                    src={urlMap}
+                    width="100%"
+                    height="300"
+                    frameBorder="0"
+                    style={{ marginRight: 40 }}
+                  ></iframe>
+                )}
+                <Divider />
+                <h1 style={{ color: "#5E5E5E", marginBottom: 20 }}>Share</h1>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: 20
+                  }}
+                >
+                  <Button
+                    style={{
+                      backgroundColor: "#2BB7F4",
+                      color: "#FFF",
+                      marginRight: 10
+                    }}
+                  >
+                    <Twitter style={{ marginRight: 10 }} />
+                    Twitter
+                  </Button>
+                  <Button
+                    style={{
+                      backgroundColor: "#0D5998",
+                      color: "#FFF",
+                      marginRight: 10
+                    }}
+                  >
+                    <Facebook style={{ marginRight: 10 }} />
+                    Facebook
+                  </Button>
+                  <Button
+                    style={{
+                      backgroundColor: "#464646",
+                      color: "#FFF",
+                      marginRight: 10
+                    }}
+                  >
+                    <Share style={{ marginRight: 10 }} />
+                    Share Link
+                  </Button>
                 </div>
               </Grid>
             </Grid>

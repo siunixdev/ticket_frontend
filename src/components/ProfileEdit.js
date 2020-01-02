@@ -98,7 +98,7 @@ class ProfilEdit extends Component {
                 Save
               </Button>
             </div>
-            <Grid item lg={7} md={6} sm={12} xs={12}>
+            <Grid item lg={7} md={6} sm={8} xs={12}>
               <div>
                 <div
                   style={{

@@ -1,4 +1,5 @@
 import {
+  ADD_EVENTS,
   GET_EVENTS,
   GET_EVENTS_TODAY,
   GET_UPCOMING_EVENTS,
@@ -20,6 +21,39 @@ const initialStateSearch = {
   eventsSearch: [],
   isLoadingSearch: false,
   errorSearch: false
+};
+
+const initialStateAddEvent = {
+  dataAddEvent: [],
+  isLoadingAddEvent: false,
+  isPostAddEvent: false,
+  errorAddEvent: false
+};
+
+export const addEvent = (state = initialStateAddEvent, action) => {
+  switch (action.type) {
+    case `${ADD_EVENTS}_PENDING`:
+      return {
+        ...state,
+        isLoadingAddEvent: true,
+        isPostAddEvent: true
+      };
+    case `${ADD_EVENTS}_FULFILLED`:
+      return {
+        ...state,
+        dataAddEvent: action.payload.data,
+        isLoadingAddEvent: false,
+        isPostAddEvent: false
+      };
+    case `${ADD_EVENTS}_REJECTED`:
+      return {
+        ...state,
+        errorAddEvent: true,
+        isLoadingAddEvent: false
+      };
+    default:
+      return state;
+  }
 };
 
 export const events = (state = initialState, action) => {

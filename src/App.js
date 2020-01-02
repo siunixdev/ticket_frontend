@@ -5,8 +5,10 @@ import "./App.css";
 import Register from "./pages/register";
 import Login from "./pages/Login";
 import Events from "./pages/Events";
+import AddEvent from "./pages/AddEvent";
 import EventsDetail from "./pages/EventDetail";
 import Profile from "./pages/Profile";
+import Payment from "./pages/Payment";
 
 // Other Component
 import Grid from "@material-ui/core/Grid";
@@ -55,6 +57,8 @@ class App extends Component {
                     <Route path="/register" component={Register} />
                     <Route path="/login" component={Login} />
                     <Route path="/profile" component={Profile} />
+                    <Route path="/payment" component={Payment} />
+                    <Route path="/event/add" component={AddEvent} />
                     <Route path="/event/:id" component={EventsDetail} />
                     <Route path="/" component={Events} />
                   </Switch>
