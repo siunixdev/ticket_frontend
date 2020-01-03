@@ -6,13 +6,10 @@ import "../App.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import { Link } from "react-router-dom";
-import { sign } from "../_actions/user";
 import { connect } from "react-redux";
 import { getCategories } from "../_actions/categories";
 import { MenuItem } from "@material-ui/core";
 import { addEvent } from "../_actions/events";
-import { events } from "../_reducer/events";
 // import axios from "axios";
 
 class AddEvent extends Component {

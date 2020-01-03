@@ -18,6 +18,11 @@ import {
   userProfileUpdate
   // userSetLikeEvent
 } from "../_reducer/user";
+import {
+  pendingOrder,
+  newOrder,
+  pendingOrderDetail
+} from "../_reducer/payment";
 
 // Middleware
 import { logger, promise } from "./middleware";
@@ -37,7 +42,10 @@ const rootReducers = combineReducers({
   userSignup,
   userDetail,
   userEventsfavorites,
-  userProfileUpdate
+  userProfileUpdate,
+  pendingOrder,
+  newOrder,
+  pendingOrderDetail
   // userSetLikeEvent
 });
 

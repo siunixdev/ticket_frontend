@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Divider } from "@material-ui/core";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Favorites from "../components/Favorites";
 import ProfileDetail from "../components/Profile";

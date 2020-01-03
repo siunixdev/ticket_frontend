@@ -1,7 +1,7 @@
 import "../App.css";
 import React, { Component } from "react";
 import { Button } from "@material-ui/core";
-import { Edit, Person, Phone, Email } from "@material-ui/icons";
+import { Person, Phone, Email } from "@material-ui/icons";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 

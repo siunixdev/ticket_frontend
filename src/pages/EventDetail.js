@@ -1,3 +1,4 @@
+/* eslint-disable react/no-direct-mutation-state */
 /* eslint-disable jsx-a11y/iframe-has-title */
 import React, { Component } from "react";
 import {
@@ -23,6 +24,7 @@ import {
 } from "@material-ui/icons";
 import { withRouter } from "react-router-dom";
 import { getEventDetail } from "../_actions/eventDetail";
+import { setNewOrder } from "../_actions/payment";
 import { connect } from "react-redux";
 import {
   convertToRupiah,
@@ -56,7 +58,16 @@ class ArticleDetail extends Component {
     this.setState({ password: event.target.value });
   };
 
+  handleSetNewOrder = () => {
+    const orderData = {
+      event_id: this.props.event_id,
+      quantity: this.state.counter
+    };
+    this.props.userSetNewOrder(orderData);
+  };
+
   render() {
+    const { payment, isLoading, error } = this.props.newOrderData;
     const { event } = this.props.eventDetail;
 
     let categoryName = event.category ? event.category.name : "";
@@ -77,6 +88,26 @@ class ArticleDetail extends Component {
     let endDate = convertToDateWithoutDay(end_time);
     let startTime = convertToTime(start_time);
     let endTime = convertToTime(end_time);
+
+    if (payment.message === "success") {
+      window.location.href = "http://localhost:3000/payments";
+    }
+
+    if (error) {
+      return (
+        <div>
+          <h1>Something error!</h1>
+        </div>
+      );
+    }
+
+    if (isLoading) {
+      return (
+        <div>
+          <h1>Now loading...!</h1>
+        </div>
+      );
+    }
 
     return (
       <>
@@ -175,6 +206,7 @@ class ArticleDetail extends Component {
                       +
                     </Button>
                     <Button
+                      onClick={this.handleSetNewOrder}
                       color="secondary"
                       variant="contained"
                       style={{ marginLeft: 20 }}
@@ -313,7 +345,8 @@ class ArticleDetail extends Component {
 const mapStateToProps = (state, otherProps) => {
   return {
     event_id: otherProps.match.params.id,
-    eventDetail: state.eventDetail
+    eventDetail: state.eventDetail,
+    newOrderData: state.newOrder
   };
 };
 
@@ -321,6 +354,10 @@ const mapDispatchToProps = dispatch => {
   return {
     getEventDetail1: event_id => {
       dispatch(getEventDetail(event_id));
+    },
+
+    userSetNewOrder: orderData => {
+      dispatch(setNewOrder(orderData));
     }
   };
 };
