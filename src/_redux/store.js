@@ -21,7 +21,8 @@ import {
 import {
   pendingOrder,
   newOrder,
-  pendingOrderDetail
+  pendingOrderDetail,
+  confirmOrder
 } from "../_reducer/payment";
 
 // Middleware
@@ -45,7 +46,8 @@ const rootReducers = combineReducers({
   userProfileUpdate,
   pendingOrder,
   newOrder,
-  pendingOrderDetail
+  pendingOrderDetail,
+  confirmOrder
   // userSetLikeEvent
 });
 

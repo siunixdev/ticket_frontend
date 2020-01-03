@@ -2,7 +2,8 @@
 import {
   GET_PENDING_ORDER,
   USER_SET_ORDER,
-  GET_PENDING_ORDER_DETAIL
+  GET_PENDING_ORDER_DETAIL,
+  USER_SET_CONFIRM_ORDER
 } from "../config/constant";
 import axios from "axios";
 
@@ -48,6 +49,22 @@ export const getPendingOrderDetail = order_id => {
       headers: {
         Authorization: token
       }
+    })
+  };
+};
+
+export const setConfirmOrder = order => {
+  let token = localStorage.getItem("token");
+  token = "Bearer " + token;
+  return {
+    type: USER_SET_CONFIRM_ORDER,
+    payload: axios({
+      method: "PUT",
+      url: "http://localhost:5000/api/v1/order/confirm",
+      headers: {
+        Authorization: token
+      },
+      data: order
     })
   };
 };

@@ -3,7 +3,7 @@ import { Divider, Grid, Button, TextField } from "@material-ui/core";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 
-import { getPendingOrder, getPendingOrderDetail } from "../_actions/payment";
+import { getPendingOrderDetail, setConfirmOrder } from "../_actions/payment";
 import {
   convertToDate,
   convertToTime,
@@ -30,8 +30,21 @@ class PaymentDetail extends Component {
     this.setState({ attachment: event.target.value });
   };
 
+  handleConfirmClick = () => {
+    const orderData = {
+      id: this.props.order_id,
+      attachment: this.state.attachment
+    };
+    this.props.setConfimOrder(orderData);
+  };
+
   render() {
     const { payment, isLoading, error } = this.props.pendingOrderDetail;
+    const { message } = this.props.confrimOrderData.confirm;
+
+    if (message === "Success") {
+      window.location.href = "http://localhost:3000/payments";
+    }
 
     let userName = payment.user ? payment.user.name : "";
     let userId = payment.user ? payment.user.id : 0;
@@ -211,16 +224,19 @@ class PaymentDetail extends Component {
                 xs={12}
                 style={{ textAlign: "right" }}
               >
-                <Button
-                  size="large"
-                  style={{
-                    backgroundColor: "#CA4040",
-                    color: "#FFF",
-                    fontWeight: "bold"
-                  }}
-                >
-                  Confirm
-                </Button>
+                {orderStatus === "Pending" && (
+                  <Button
+                    onClick={this.handleConfirmClick}
+                    size="large"
+                    style={{
+                      backgroundColor: "#CA4040",
+                      color: "#FFF",
+                      fontWeight: "bold"
+                    }}
+                  >
+                    Confirm
+                  </Button>
+                )}
               </Grid>
             </Grid>
           </div>
@@ -234,7 +250,8 @@ const mapStateToProps = (state, otherProps) => {
   return {
     order_id: otherProps.match.params.id,
     pendingOrder: state.pendingOrder,
-    pendingOrderDetail: state.pendingOrderDetail
+    pendingOrderDetail: state.pendingOrderDetail,
+    confrimOrderData: state.confirmOrder
   };
 };
 
@@ -242,6 +259,10 @@ const mapDispatchToProps = dispatch => {
   return {
     getPendingOrderDetail: order_id => {
       dispatch(getPendingOrderDetail(order_id));
+    },
+
+    setConfimOrder: orderData => {
+      dispatch(setConfirmOrder(orderData));
     }
   };
 };

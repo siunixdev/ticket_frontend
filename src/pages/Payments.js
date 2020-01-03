@@ -31,7 +31,6 @@ class Payments extends Component {
   };
 
   render() {
-    console.log(this.props.pendingOrder);
     const { payment, isLoading, error } = this.props.pendingOrder;
 
     if (error) {
@@ -138,21 +137,23 @@ class Payments extends Component {
                           marginBottom: 20
                         }}
                       >
-                        <Link
-                          to={"/payment/" + item.id}
-                          style={{ textDecoration: "none" }}
-                        >
-                          <Button
-                            size="large"
-                            style={{
-                              backgroundColor: "#CA4040",
-                              color: "#FFF",
-                              fontWeight: "bold"
-                            }}
+                        {item.status === "Pending" && (
+                          <Link
+                            to={"/payment/" + item.id}
+                            style={{ textDecoration: "none" }}
                           >
-                            CHECK OUT
-                          </Button>
-                        </Link>
+                            <Button
+                              size="large"
+                              style={{
+                                backgroundColor: "#CA4040",
+                                color: "#FFF",
+                                fontWeight: "bold"
+                              }}
+                            >
+                              CHECK OUT
+                            </Button>
+                          </Link>
+                        )}
                       </Grid>
                       <div style={{ display: "flex" }}>
                         <h3>Status : {item.status}</h3>
