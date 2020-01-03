@@ -139,7 +139,7 @@ function Header(props) {
                     </MenuItem>
                   </Link>
                   <Link
-                    to="/stories"
+                    to="/tickets"
                     style={{ textDecoration: "none", color: "#5e5e5e" }}
                   >
                     <MenuItem onClick={handleClose}>

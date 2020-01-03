@@ -3,7 +3,8 @@ import {
   GET_PENDING_ORDER,
   USER_SET_ORDER,
   GET_PENDING_ORDER_DETAIL,
-  USER_SET_CONFIRM_ORDER
+  USER_SET_CONFIRM_ORDER,
+  GET_APPROVED_ORDER
 } from "../config/constant";
 import axios from "axios";
 
@@ -15,6 +16,21 @@ export const getPendingOrder = () => {
     payload: axios({
       method: "GET",
       url: "http://localhost:5000/api/v1/order/pending",
+      headers: {
+        Authorization: token
+      }
+    })
+  };
+};
+
+export const getApprovedOrder = () => {
+  let token = localStorage.getItem("token");
+  token = "Bearer " + token;
+  return {
+    type: GET_APPROVED_ORDER,
+    payload: axios({
+      method: "GET",
+      url: "http://localhost:5000/api/v1/order/approved",
       headers: {
         Authorization: token
       }

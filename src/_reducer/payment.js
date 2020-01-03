@@ -2,12 +2,14 @@ import {
   GET_PENDING_ORDER,
   USER_SET_ORDER,
   GET_PENDING_ORDER_DETAIL,
-  USER_SET_CONFIRM_ORDER
+  USER_SET_CONFIRM_ORDER,
+  GET_APPROVED_ORDER
 } from "../config/constant";
 
 const initialState = {
   payment: [],
   confirm: [],
+  approved: [],
   isLoading: false,
   error: false
 };
@@ -27,6 +29,31 @@ export const pendingOrder = (state = initialState, action) => {
         isLoading: false
       };
     case `${GET_PENDING_ORDER}_REJECTED`:
+      return {
+        ...state,
+        error: true,
+        isLoading: false
+      };
+    default:
+      return state;
+  }
+};
+
+export const approvedOrder = (state = initialState, action) => {
+  switch (action.type) {
+    case `${GET_APPROVED_ORDER}_PENDING`:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case `${GET_APPROVED_ORDER}_FULFILLED`:
+      console.log(action.payload);
+      return {
+        ...state,
+        approved: action.payload.data,
+        isLoading: false
+      };
+    case `${GET_APPROVED_ORDER}_REJECTED`:
       return {
         ...state,
         error: true,

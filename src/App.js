@@ -10,6 +10,7 @@ import EventsDetail from "./pages/EventDetail";
 import Profile from "./pages/Profile";
 import Payments from "./pages/Payments";
 import PaymentDetail from "./pages/PaymentDetail";
+import Tickets from "./pages/Tickets";
 
 // Other Component
 import Grid from "@material-ui/core/Grid";
@@ -59,6 +60,7 @@ class App extends Component {
                     <Route path="/login" component={Login} />
                     <Route path="/profile" component={Profile} />
                     <Route path="/payments" component={Payments} />
+                    <Route path="/tickets" component={Tickets} />
                     <Route path="/payment/:id" component={PaymentDetail} />
                     <Route path="/event/add" component={AddEvent} />
                     <Route path="/event/:id" component={EventsDetail} />
